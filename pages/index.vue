@@ -13,40 +13,43 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
 import Memo from '~/components/Memo.vue'
 import PlusBtn from '~/components/PlusBtn.vue'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default {
+@Component({
   components: {
     Memo,
     PlusBtn
-  },
-  data() {
-    return {
-      memoPositions: []
-    }
-  },
-  methods: {
-    plusMemo() {
-      const widthCount = Math.floor(window.innerWidth / 250)
-      this.memoPositions = [
-        ...this.memoPositions,
-        {
-          top: Math.floor(this.memoPositions.length / widthCount) * 350,
-          left: (this.memoPositions.length % widthCount) * 250
-        }
-      ]
-    },
-    minusMemo(index) {
-      this.memoPositions = [...this.memoPositions]
-      this.memoPositions.splice(index, 1)
-    },
-    mouseMove(position) {
-      this.memoPositions = [...this.memoPositions]
-      this.memoPositions[position.index].top = position.top
-      this.memoPositions[position.index].left = position.left
-    }
+  }
+})
+
+export default class index extends Vue {
+  // data
+  public memoPositions: Array<{ top?: number, left?: number }> = [];
+
+  // methods
+  plusMemo(): void {
+    const widthCount: number = Math.floor(window.innerWidth / 250)
+    this.memoPositions = [
+      ...this.memoPositions,
+      {
+        top: Math.floor(this.memoPositions.length / widthCount) * 350,
+        left: (this.memoPositions.length % widthCount) * 250
+      }
+    ]
+  }
+
+  minusMemo(index: number): void {
+    this.memoPositions = [...this.memoPositions]
+    this.memoPositions.splice(index, 1)
+  }
+
+  mouseMove(position: { top: number; left: number; index: number; }): void {
+    this.memoPositions = [...this.memoPositions]
+    this.memoPositions[position.index].top = position.top
+    this.memoPositions[position.index].left = position.left
   }
 }
 </script>
