@@ -1,6 +1,6 @@
 # memoapp
 
-> Memo app for my Nuxt.js training
+> Memo app for my Nuxt.js with typescript training
 
 ## Build Setup
 
