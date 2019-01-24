@@ -1,11 +1,21 @@
 <template>
   <div
     class="plus"
-    @click="$emit('plus')"
+    @click="plus"
   >
     +
   </div>
 </template>
+
+<script lang="ts">
+import { Emit, Component, Vue } from 'vue-property-decorator'
+
+@Component
+export default class PlusBtn extends Vue {
+  @Emit()
+  plus() {}
+}
+</script>
 
 <style>
 .plus {
