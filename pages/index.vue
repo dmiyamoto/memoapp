@@ -1,13 +1,17 @@
 <template>
-  <section class="container">
+  <section
+    @mousemove="onMouseMove"
+    @mouseup="onMouseUp"
+    class="container"
+  >
     <memo
       v-for="(value, index) in memoPositions"
       :key="index"
-      :index="index"
       :top="value.top"
       :left="value.left"
       @minus="minusMemo(index)"
       @mouse-move="mouseMove"
+      @dragstart="onDragStart($event, index)"
     />
     <plus-btn @plus="plusMemo" />
   </section>
@@ -24,6 +28,9 @@ export default {
   },
   data() {
     return {
+      draggingIndex: null,
+      prevX: null,
+      prevY: null,
       memoPositions: []
     }
   },
@@ -42,10 +49,28 @@ export default {
       this.memoPositions = [...this.memoPositions]
       this.memoPositions.splice(index, 1)
     },
-    mouseMove(position) {
+    onDragStart({ x, y }, index) {
+      this.draggingIndex = index
+      this.prevX = x
+      this.prevY = y
+    },
+    onMouseMove(e) {
+      if (this.draggingIndex === null) return
+
+      const x = e.pageX
+      const y = e.pageY
+      const target = { ...this.memoPositions[this.draggingIndex] }
+      target.left += x - this.prevX
+      target.top += y - this.prevY
+
       this.memoPositions = [...this.memoPositions]
-      this.memoPositions[position.index].top = position.top
-      this.memoPositions[position.index].left = position.left
+      this.memoPositions[this.draggingIndex] = target
+
+      this.prevX = x
+      this.prevY = y
+    },
+    onMouseUp() {
+      this.draggingIndex = null
     }
   }
 }
