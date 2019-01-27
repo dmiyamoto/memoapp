@@ -6,10 +6,7 @@
       left: `${left}px`
     }"
   >
-    <div
-      class="agenda"
-      @mousedown="onMouseDown"
-    >
+    <div class="handle" @mousedown="onMousedown">
       <div
         class="minus"
         @click="$emit('minus')"
@@ -17,12 +14,17 @@
         X
       </div>
     </div>
-    <textarea class="content" />
+    <editor :index="index" />
   </div>
 </template>
 
 <script>
+import Editor from '~/components/Editor.vue'
+
 export default {
+  components: {
+    Editor
+  },
   props: {
     top: {
       type: Number,
@@ -31,11 +33,15 @@ export default {
     left: {
       type: Number,
       default: 0
+    },
+    index: {
+      type: Number,
+      default: 0
     }
   },
   methods: {
-    onMouseDown(e) {
-      this.$emit('dragstart', {
+    onMousedown(e) {
+      this.$emit('dragStart', {
         x: e.pageX,
         y: e.pageY
       })
@@ -46,18 +52,19 @@ export default {
 
 <style>
 .memo {
+  position: fixed;
+  background: #f00;
+  width: 200px;
   height: 300px;
-  width: 200px;
+}
+.handle {
   position: absolute;
-  background-color: red;
-}
-.agenda {
+  top: 0;
+  left: 0;
+  right: 0;
   height: 50px;
-  width: 200px;
-}
-.content {
-  height: 250px;
-  width: 200px;
+  background: #900;
+  cursor: move;
 }
 .minus {
   text-align: center;
