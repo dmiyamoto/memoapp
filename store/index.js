@@ -37,6 +37,10 @@ export const mutations = {
     state.memoList = [...state.memoList]
     state.memoList.splice(index, 1)
   },
+  changeColor(state, { index, color }) {
+    state.memoList = [...state.memoList]
+    state.memoList[index].background = color
+  },
   moveMemo(state, { index, target }) {
     state.memoList = [...state.memoList]
     state.memoList[index] = target

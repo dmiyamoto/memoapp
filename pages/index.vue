@@ -9,8 +9,10 @@
       :key="index"
       :top="mm.top"
       :left="mm.left"
+      :background="mm.background"
       :index="index"
       @dragStart="onDragStart($event, index)"
+      @changeColor="onChangeColor($event, index)"
       @minus="minusMemo(index)"
     />
     <plus-btn @plus="plusMemo" />
@@ -40,11 +42,15 @@ export default {
       this.$store.commit('addMemo', {
         top: Math.floor(this.$store.state.memoList.length / widthCount) * 350,
         left: (this.$store.state.memoList.length % widthCount) * 250,
-        text: ''
+        text: '',
+        background: '#f00'
       })
     },
     minusMemo(index) {
       this.$store.commit('minusMemo', { index })
+    },
+    onChangeColor(color, index) {
+      this.$store.commit('changeColor', { index, color })
     },
     onDragStart({ x, y }, index) {
       this.draggingIndex = index
